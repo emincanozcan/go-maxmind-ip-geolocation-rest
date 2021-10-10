@@ -7,15 +7,16 @@ import (
 )
 
 type GeolocationData struct {
-	countryIsoCode string
+	CountryIso        string `json:"country_iso"`
+	SubDiv1Iso        string `json:"sub_div_1_iso"`
+	SubDiv2Iso        string `json:"sub_div_2_iso"`
+	CityGeolocationId uint   `json:"city_geolocation_id"`
 }
 
 const MMDBPath string = "data-src/GeoLite2City.mmdb"
 
 func Geolocation(ipAddr string) GeolocationData {
-
 	// TODO: measure performance, opening file for every request probably a bad idea.
-
 	db, err := geoip2.Open(MMDBPath)
 	defer db.Close()
 
@@ -30,7 +31,18 @@ func Geolocation(ipAddr string) GeolocationData {
 		log.Fatal(err)
 	}
 
-	return GeolocationData{
-		countryIsoCode: record.Country.IsoCode,
+	data := GeolocationData{
+		CountryIso:        record.Country.IsoCode,
+		CityGeolocationId: record.City.GeoNameID,
 	}
+
+	if len(record.Subdivisions) > 0 {
+		data.SubDiv1Iso = record.Subdivisions[0].IsoCode
+	}
+
+	if len(record.Subdivisions) > 1 {
+		data.SubDiv2Iso = record.Subdivisions[1].IsoCode
+	}
+
+	return data
 }
