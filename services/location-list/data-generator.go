@@ -2,7 +2,6 @@ package location_list
 
 import (
 	"encoding/csv"
-	"fmt"
 	"os"
 	"strconv"
 )
@@ -29,7 +28,6 @@ type subDiv2 struct {
 func (l *locations) addCountry(iso string, name string) *country {
 	if _, ok := l.Countries[iso]; !ok {
 		if l.Countries == nil {
-			fmt.Println(make(map[string]*country))
 			l.Countries = make(map[string]*country)
 		}
 
