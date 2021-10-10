@@ -5,6 +5,7 @@ import (
 	"github.com/emincanozcan/go-maxmind-ip-geolocation-rest/services/location-list"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"log"
 )
 
 func main() {
@@ -15,5 +16,8 @@ func main() {
 	app.Use(compress.New())
 	app.Get("/locations", handlers.LocationListHandler)
 	app.Get("/ip-to-geolocation/:ipAddr", handlers.IpToGeolocationHandler)
-	app.Listen(":8090")
+	err := app.Listen(":8080")
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
