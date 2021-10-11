@@ -110,7 +110,7 @@ func dataGenerator() *locations {
 		s1 := c.addSubDiv(subDiv1Iso, subDiv1Name)
 
 		if len(subDiv2Name) > 0 {
-			s2 := s1.addSubDiv(subDiv2Iso, subDiv2Iso)
+			s2 := s1.addSubDiv(subDiv2Iso, subDiv2Name)
 			if len(cityName) > 0 {
 				s2.addCity(geoId, cityName)
 			}
